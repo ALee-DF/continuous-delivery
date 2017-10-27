@@ -19,7 +19,7 @@ describe('Express Server', () => {
     })
   })
   describe('GET Request', () => {
-    it('should get the information of name and description of repo', done => {
+    it('should get the information of name, description, and link of repo', done => {
       request('http://localhost:3000/', (err, response, body) => {
         expect(err).to.equal(null)
         const result = JSON.parse(body)
@@ -27,6 +27,7 @@ describe('Express Server', () => {
         expect(result).to.be.an('object')
         expect(result.name).to.equal('continuous-delivery')
         expect(result.description).to.equal('A practice repository for testing and deployment.')
+        expect(result.link).to.equal('https://github.com/ALee-DF/continuous-delivery.git')
         done()
       })
     })
