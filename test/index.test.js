@@ -27,15 +27,15 @@ describe('Express Server', () => {
         expect(result).to.be.an('object')
         expect(result.name).to.equal('continuous-delivery')
         expect(result.description).to.equal('A practice repository for testing and deployment.')
+        done()
       })
-      done()
     })
 
     it('should fail when going to wrong port', done => {
       request('http://localhost:2999/', (err, response, body) => {
         expect(err).to.not.equal(null)
+        done()
       })
-      done()
     })
   })
 })
