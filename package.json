@@ -1,5 +1,8 @@
 {
   "version": "1.0.0",
+  "engines": {
+    "node": "v8.8.0"
+  },
   "private": true,
   "scripts": {
     "start": "node .",
