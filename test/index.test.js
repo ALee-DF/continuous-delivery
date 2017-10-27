@@ -2,12 +2,13 @@ const { expect } = require('chai')
 const { describe, it, after, before } = require('mocha')
 const request = require('request')
 const createApp = require('../create-app')
+require('dotenv').config()
 
 describe('Express Server', () => {
   const app = createApp()
   let server
   before(done => {
-    server = app.listen(3000, () => {
+    server = app.listen(process.env.PORT, () => {
       done()
     })
   })
