@@ -4,7 +4,8 @@ module.exports = function createApp() {
   app.get('/', (req, res) => {
     res.json({
       name: 'continuous-delivery',
-      description: 'A practice repository for testing and deployment.'
+      description: 'A practice repository for testing and deployment.',
+      link: 'https://github.com/ALee-DF/continuous-delivery.git'
     })
   })
   return app
