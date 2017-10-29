@@ -1,6 +1,8 @@
 const { expect } = require('chai')
-const { describe, it, after, before } = require('mocha')
+const { describe, it, after, before, beforeEach } = require('mocha')
 const request = require('request')
+const { MongoClient } = require('mongodb')
+const todosGateway = require('../todos-gateway')
 const createApp = require('../create-app')
 require('dotenv').config()
 
@@ -37,6 +39,51 @@ describe('Express Server', () => {
         expect(err).to.not.equal(null)
         done()
       })
+    })
+  })
+})
+
+describe('todosGateway', () => {
+  let db
+  let todos
+  let collection
+  const testList = [
+    {
+      task: 'write tests',
+      dueDate: new Date()
+    },
+    {
+      task: 'verify tests',
+      dueDate: new Date()
+    },
+    {
+      task: 'integrate the file',
+      dueDate: new Date()
+    }
+  ]
+  before('connect to mongodb', done => {
+    MongoClient.connect('mongodb://localhost/todo-app', (err, _db) => {
+      if (err) return done(err)
+      db = _db
+      collection = db.collection('todos')
+      todos = todosGateway(collection)
+      done()
+    })
+  })
+
+  after('disconnect from mongodb', () => db.close())
+
+  beforeEach('reset todos collection', async () => {
+    await collection.deleteMany()
+    await collection.insert(testList)
+  })
+  describe('find', () => {
+    it('lists all the todos', async () => {
+      const list = await todos.find({})
+      expect(list)
+        .to.be.an('array')
+        .to.have.lengthOf(3)
+        .deep.equal(testList)
     })
   })
 })
