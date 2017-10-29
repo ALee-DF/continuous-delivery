@@ -2,13 +2,11 @@ const { expect } = require('chai')
 const { describe, it, after, before, beforeEach } = require('mocha')
 const request = require('request')
 const { MongoClient } = require('mongodb')
-const todosGateway = require('../todos-gateway')
 const createApp = require('../create-app')
 require('dotenv').config()
 
 describe('continuous delivery', () => {
   let db
-  let todos
   let collection
   let server
 
@@ -17,7 +15,6 @@ describe('continuous delivery', () => {
       if (err) return done(err)
       db = _db
       collection = db.collection('todos')
-      todos = todosGateway(collection)
       const app = createApp(db)
       server = app.listen(process.env.PORT, () => {
         done()
@@ -54,7 +51,7 @@ describe('continuous delivery', () => {
     })
   })
 
-  describe('todosGateway', () => {
+  describe('GET todos list', () => {
     const date = new Date()
     const testList = [
       {
@@ -76,17 +73,7 @@ describe('continuous delivery', () => {
       await collection.insert(testList)
     })
 
-    describe('find method', () => {
-      it('lists all the todos', async () => {
-        const list = await todos.find({})
-        expect(list)
-          .to.be.an('array')
-          .to.have.lengthOf(3)
-          .deep.equal(testList)
-      })
-    })
-
-    describe('GET todos list', () => {
+    describe('GET /todos request', () => {
       it('list all the todos', done => {
         request('http://localhost:3000/todos', (err, response, body) => {
           expect(err).to.equal(null)
