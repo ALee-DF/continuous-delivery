@@ -2,7 +2,7 @@ const createApp = require('./create-app')
 const { MongoClient } = require('mongodb')
 require('dotenv').config()
 
-MongoClient.connect('mongodb://localhost/todo-app', (err, db) => {
+MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
   if (err) {
     console.error(err)
     process.exit(1)

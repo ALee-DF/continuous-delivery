@@ -13,7 +13,7 @@ describe('continuous delivery', () => {
   let server
 
   before('connect to mongodb and express server', done => {
-    MongoClient.connect('mongodb://localhost/todo-app', (err, _db) => {
+    MongoClient.connect(process.env.MONGODB_URI, (err, _db) => {
       if (err) return done(err)
       db = _db
       collection = db.collection('todos')
