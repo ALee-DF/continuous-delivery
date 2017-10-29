@@ -6,20 +6,32 @@ const todosGateway = require('../todos-gateway')
 const createApp = require('../create-app')
 require('dotenv').config()
 
-describe('Express Server', () => {
-  const app = createApp()
+describe('continuous delivery', () => {
+  let db
+  let todos
+  let collection
   let server
-  before(done => {
-    server = app.listen(process.env.PORT, () => {
-      done()
+
+  before('connect to mongodb and express server', done => {
+    MongoClient.connect('mongodb://localhost/todo-app', (err, _db) => {
+      if (err) return done(err)
+      db = _db
+      collection = db.collection('todos')
+      todos = todosGateway(collection)
+      const app = createApp(db)
+      server = app.listen(process.env.PORT, () => {
+        done()
+      })
     })
   })
 
-  after(done => {
+  after('disconnect from mongodb and express server', done => {
+    db.close()
     server.close(() => {
       done()
     })
   })
+
   describe('GET Request', () => {
     it('should get the information of name, description, and link of repo', done => {
       request('http://localhost:3000/', (err, response, body) => {
@@ -41,49 +53,51 @@ describe('Express Server', () => {
       })
     })
   })
-})
 
-describe('todosGateway', () => {
-  let db
-  let todos
-  let collection
-  const testList = [
-    {
-      task: 'write tests',
-      dueDate: new Date()
-    },
-    {
-      task: 'verify tests',
-      dueDate: new Date()
-    },
-    {
-      task: 'integrate the file',
-      dueDate: new Date()
-    }
-  ]
-  before('connect to mongodb', done => {
-    MongoClient.connect('mongodb://localhost/todo-app', (err, _db) => {
-      if (err) return done(err)
-      db = _db
-      collection = db.collection('todos')
-      todos = todosGateway(collection)
-      done()
+  describe('todosGateway', () => {
+    const date = new Date()
+    const testList = [
+      {
+        task: 'write tests',
+        dueDate: date
+      },
+      {
+        task: 'verify tests',
+        dueDate: date
+      },
+      {
+        task: 'integrate the file',
+        dueDate: date
+      }
+    ]
+
+    beforeEach('reset todos collection', async () => {
+      await collection.deleteMany()
+      await collection.insert(testList)
     })
-  })
 
-  after('disconnect from mongodb', () => db.close())
+    describe('find method', () => {
+      it('lists all the todos', async () => {
+        const list = await todos.find({})
+        expect(list)
+          .to.be.an('array')
+          .to.have.lengthOf(3)
+          .deep.equal(testList)
+      })
+    })
 
-  beforeEach('reset todos collection', async () => {
-    await collection.deleteMany()
-    await collection.insert(testList)
-  })
-  describe('find', () => {
-    it('lists all the todos', async () => {
-      const list = await todos.find({})
-      expect(list)
-        .to.be.an('array')
-        .to.have.lengthOf(3)
-        .deep.equal(testList)
+    describe('GET todos list', () => {
+      it('list all the todos', done => {
+        request('http://localhost:3000/todos', (err, response, body) => {
+          expect(err).to.equal(null)
+          const result = JSON.parse(body)
+          expect(response.statusCode).to.equal(200)
+          expect(result)
+            .to.be.an('array')
+            .to.have.lengthOf(3)
+          done()
+        })
+      })
     })
   })
 })
