@@ -23,7 +23,6 @@ module.exports = function createApp(db) {
       res.json(list)
     })
     .post('/api/todos', async (req, res) => {
-      console.log(req.body)
       const created = await todos.create(req.body)
       res.status(201).json(created)
     })
