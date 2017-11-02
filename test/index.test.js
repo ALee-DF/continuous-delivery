@@ -98,7 +98,6 @@ describe('continuous delivery', () => {
           'http://localhost:3000/todos',
           { json: newTodo },
           (err, response, body) => {
-            console.log(body)
             expect(err).to.equal(null)
             expect(response.statusCode).to.equal(201)
             expect(body)
