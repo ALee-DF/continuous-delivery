@@ -50,4 +50,15 @@ describe('todosGateway', () => {
         .deep.equal(testList)
     })
   })
+
+  describe('create method', () => {
+    it('creates and returns a subbmited todo', async () => {
+      const newTodo = {
+        task: 'test newTodo',
+        date: new Date()
+      }
+      const returnedTodo = await todos.create(newTodo)
+      expect(returnedTodo).deep.equal(newTodo)
+    })
+  })
 })
