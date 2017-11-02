@@ -6,6 +6,7 @@ module.exports = function createApp(db) {
   const app = express()
   const todos = todosGateway(db.collection('todos'))
   app
+    .use(express.static('public'))
     .use(bodyParser.json())
     .get('/', (req, res) => {
       res.json({
