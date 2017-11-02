@@ -51,7 +51,7 @@ describe('continuous delivery', () => {
     })
   })
 
-  describe('GET todos list', () => {
+  describe('todos Features', () => {
     const date = new Date()
     const testList = [
       {
@@ -84,6 +84,28 @@ describe('continuous delivery', () => {
             .to.have.lengthOf(3)
           done()
         })
+      })
+    })
+
+    describe('POST /todos', () => {
+      const newTodo = {
+        task: 'test newTodo',
+        date: new Date()
+      }
+
+      it('stores and responds with a newTodo', done => {
+        request.post(
+          'http://localhost:3000/todos',
+          { json: newTodo },
+          (err, response, body) => {
+            console.log(body)
+            expect(err).to.equal(null)
+            expect(response.statusCode).to.equal(201)
+            expect(body)
+              .to.be.an('object')
+              .to.have.property('task', 'test newTodo')
+            done()
+          })
       })
     })
   })
