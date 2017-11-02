@@ -1,7 +1,7 @@
 const { describe, before, beforeEach, after, it } = require('mocha')
 const { expect } = require('chai')
 const { MongoClient } = require('mongodb')
-const todosGateway = require('../todos-gateway')
+const todosGateway = require('../server/todos-gateway')
 require('dotenv').config()
 
 describe('todosGateway', () => {

@@ -2,7 +2,7 @@ const { expect } = require('chai')
 const { describe, it, after, before, beforeEach } = require('mocha')
 const request = require('request')
 const { MongoClient } = require('mongodb')
-const createApp = require('../create-app')
+const createApp = require('../server/create-app')
 require('dotenv').config()
 
 describe('continuous delivery', () => {

@@ -11,7 +11,7 @@
     "lint:css": "stylelint ./**/*.css",
     "lint:js": "eslint ./**/*.js",
     "precommit": "npm test",
-    "watch": "nodemon index.js",
+    "watch": "nodemon server/index.js",
     "test": "mocha test/",
     "tdd": "mocha test/ -w -R min",
     "cover": "nyc --reporter=lcov npm test"
