@@ -52,7 +52,7 @@ describe('todosGateway', () => {
   })
 
   describe('create method', () => {
-    it('creates and returns a subbmited todo', async () => {
+    it('creates and returns a submitted todo', async () => {
       const newTodo = {
         task: 'test newTodo',
         date: new Date()
