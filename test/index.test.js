@@ -31,7 +31,7 @@ describe('continuous delivery', () => {
 
   describe('GET Request', () => {
     it('should get the information of name, description, and link of repo', done => {
-      request('http://localhost:3000/', (err, response, body) => {
+      request('http://localhost:3000/api', (err, response, body) => {
         expect(err).to.equal(null)
         const result = JSON.parse(body)
         expect(response.statusCode).to.equal(200)
@@ -44,7 +44,7 @@ describe('continuous delivery', () => {
     })
 
     it('should fail when going to wrong port', done => {
-      request('http://localhost:2999/', (err, response, body) => {
+      request('http://localhost:2999/api', (err, response, body) => {
         expect(err).to.not.equal(null)
         done()
       })
@@ -75,7 +75,7 @@ describe('continuous delivery', () => {
 
     describe('GET /todos request', () => {
       it('list all the todos', done => {
-        request('http://localhost:3000/todos', (err, response, body) => {
+        request('http://localhost:3000/api/todos', (err, response, body) => {
           expect(err).to.equal(null)
           const result = JSON.parse(body)
           expect(response.statusCode).to.equal(200)
@@ -95,7 +95,7 @@ describe('continuous delivery', () => {
 
       it('stores and responds with a newTodo', done => {
         request.post(
-          'http://localhost:3000/todos',
+          'http://localhost:3000/api/todos',
           { json: newTodo },
           (err, response, body) => {
             expect(err).to.equal(null)
