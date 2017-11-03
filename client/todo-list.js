@@ -1,8 +1,8 @@
 import React from 'react'
 const renderTodoItem = ({ task, dueDate }, index) =>
   <li key={ index }>
-    <h1>Task: { task }</h1>
-    <h2>Due: { dueDate }</h2>
+    <h5>Task: { task }</h5>
+    <h5>Due: { dueDate }</h5>
   </li>
 
 export default function TodoList({ todos }) {

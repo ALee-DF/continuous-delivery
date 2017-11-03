@@ -19,7 +19,7 @@ export default function TodoForm({ handleSubmit }) {
           className="form-control"
           id="dueDateInput"
           name="dueDateInput"
-          placeholder="Enter Due Date" />
+          placeholder="mm/dd/yyyy" />
       </div>
       <button type="submit" className="btn btn-primary">Submit</button>
     </form>
