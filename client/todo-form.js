@@ -7,7 +7,7 @@ export default class TodoForm extends Component {
       task: formData.get('taskInput'),
       dueDate: formData.get('dueDateInput')
     }
-    fetch('http://localhost:3000/api/todos/', {
+    fetch('/api/todos/', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
