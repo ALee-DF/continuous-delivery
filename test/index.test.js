@@ -2,7 +2,7 @@ const { expect } = require('chai')
 const { describe, it, after, before, beforeEach } = require('mocha')
 const request = require('request')
 const { MongoClient } = require('mongodb')
-const createApp = require('../create-app')
+const createApp = require('../server/create-app')
 require('dotenv').config()
 
 describe('continuous delivery', () => {
@@ -31,7 +31,7 @@ describe('continuous delivery', () => {
 
   describe('GET Request', () => {
     it('should get the information of name, description, and link of repo', done => {
-      request('http://localhost:3000/', (err, response, body) => {
+      request('http://localhost:' + process.env.PORT + '/api', (err, response, body) => {
         expect(err).to.equal(null)
         const result = JSON.parse(body)
         expect(response.statusCode).to.equal(200)
@@ -44,14 +44,14 @@ describe('continuous delivery', () => {
     })
 
     it('should fail when going to wrong port', done => {
-      request('http://localhost:2999/', (err, response, body) => {
+      request('http://localhost:2146/api', (err, response, body) => {
         expect(err).to.not.equal(null)
         done()
       })
     })
   })
 
-  describe('GET todos list', () => {
+  describe('todos Features', () => {
     const date = new Date()
     const testList = [
       {
@@ -75,7 +75,7 @@ describe('continuous delivery', () => {
 
     describe('GET /todos request', () => {
       it('list all the todos', done => {
-        request('http://localhost:3000/todos', (err, response, body) => {
+        request('http://localhost:' + process.env.PORT + '/api/todos', (err, response, body) => {
           expect(err).to.equal(null)
           const result = JSON.parse(body)
           expect(response.statusCode).to.equal(200)
@@ -84,6 +84,27 @@ describe('continuous delivery', () => {
             .to.have.lengthOf(3)
           done()
         })
+      })
+    })
+
+    describe('POST /todos', () => {
+      const newTodo = {
+        task: 'test newTodo',
+        date: new Date()
+      }
+
+      it('stores and responds with a newTodo', done => {
+        request.post(
+          'http://localhost:' + process.env.PORT + '/api/todos',
+          { json: newTodo },
+          (err, response, body) => {
+            expect(err).to.equal(null)
+            expect(response.statusCode).to.equal(201)
+            expect(body)
+              .to.be.an('object')
+              .to.have.property('task', 'test newTodo')
+            done()
+          })
       })
     })
   })

@@ -1,7 +1,7 @@
 const { describe, before, beforeEach, after, it } = require('mocha')
 const { expect } = require('chai')
 const { MongoClient } = require('mongodb')
-const todosGateway = require('../todos-gateway')
+const todosGateway = require('../server/todos-gateway')
 require('dotenv').config()
 
 describe('todosGateway', () => {
@@ -48,6 +48,17 @@ describe('todosGateway', () => {
         .to.be.an('array')
         .to.have.lengthOf(3)
         .deep.equal(testList)
+    })
+  })
+
+  describe('create method', () => {
+    it('creates and returns a submitted todo', async () => {
+      const newTodo = {
+        task: 'test newTodo',
+        date: new Date()
+      }
+      const returnedTodo = await todos.create(newTodo)
+      expect(returnedTodo).deep.equal(newTodo)
     })
   })
 })
