@@ -9,34 +9,32 @@ export default class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  async componentDidMount() {
-    const res = await fetch('/api/todos')
-    const todos = await res.json()
-    this.setState({ todos })
-  }
-
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault()
     const formData = new FormData(event.target)
     const data = {
       task: formData.get('taskInput'),
       dueDate: formData.get('dueDateInput')
     }
-
-    fetch('/api/todos/', {
+    event.target.reset()
+    await fetch('/api/todos/', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
         'content-type': 'application/json'
       }
     })
-    event.target.reset()
+
+    const res = await fetch('/api/todos')
+    const todos = await res.json()
+    this.setState({ todos })
   }
 
   render() {
     return (
       <div className="container">
         <TodoForm handleSubmit={ this.handleSubmit }/>
+        <br />
         <TodoList todos={ this.state.todos }/>
       </div>
     )
