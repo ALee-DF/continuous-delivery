@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import TodoForm from './todo-form.js'
+import App from './app.js'
 
 ReactDOM.render(
-  <TodoForm />,
+  <App />,
   document.querySelector('#form-section')
 )
