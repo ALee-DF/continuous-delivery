@@ -25,9 +25,9 @@ export default class App extends Component {
       }
     })
 
-    const res = await fetch('/api/todos')
-    const todos = await res.json()
-    this.setState({ todos })
+    this.setState({
+      todos: this.state.todos.concat(data)
+    })
   }
 
   render() {
