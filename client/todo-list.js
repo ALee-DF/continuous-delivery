@@ -1,9 +1,9 @@
 import React from 'react'
 
 const listEntryStyle = {
-  'box-shadow': '0 3px 5px black',
-  'background-color': 'rgb(225, 225, 200)',
-  'border-radius': '15px',
+  'boxShadow': '0 3px 5px black',
+  'backgroundColor': 'rgb(225, 225, 200)',
+  'borderRadius': '15px',
   'padding': '5px',
   'margin': '8px'
 }
@@ -15,7 +15,8 @@ const renderTodoItem = ({ task, dueDate }, index) =>
 
 const listStyle = {
   'listStyle': 'none',
-  'padding': 2
+  'padding': '2px',
+  'marginTop': '8px'
 }
 export default function TodoList({ todos }) {
   return (

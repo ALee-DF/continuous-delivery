@@ -34,7 +34,6 @@ export default class App extends Component {
     return (
       <div className="container">
         <TodoForm handleSubmit={ this.handleSubmit }/>
-        <br />
         <TodoList todos={ this.state.todos }/>
       </div>
     )
