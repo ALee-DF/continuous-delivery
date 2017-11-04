@@ -32,7 +32,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className='container'>
         <TodoForm handleSubmit={ this.handleSubmit }/>
         <TodoList todos={ this.state.todos }/>
       </div>
