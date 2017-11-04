@@ -15,7 +15,7 @@ export default function TodoForm({ handleSubmit }) {
       <div className="form-group">
         <label htmlFor="dueDate">Date</label>
         <input
-          type="tesxt"
+          type="text"
           className="form-control"
           id="dueDateInput"
           name="dueDateInput"
